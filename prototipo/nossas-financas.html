@@ -221,7 +221,7 @@ input,select{font:inherit;color:var(--fg)}
 .seg{display:grid;grid-template-columns:repeat(3,1fr);background:var(--surface-2);border-radius:10px;padding:3px;margin-top:22px}
 .seg button{height:30px;border-radius:8px;font-size:12px;font-weight:500;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 4px}
 .seg button.on{background:var(--surface);color:var(--fg);box-shadow:0 1px 2px rgba(16,24,40,.08)}
-.mbar{position:relative;margin-top:34px;height:18px;background:var(--surface-2);border-radius:5px}
+.mbar{position:relative;margin-top:40px;height:18px;background:var(--surface-2);border-radius:5px}
 .mbar i{position:absolute;left:0;top:0;bottom:0;border-radius:5px}
 .mbar .ref{position:absolute;top:-8px;bottom:-8px;width:2px;background:var(--fg);border-radius:2px}
 .mbar .ref span{position:absolute;bottom:calc(100% + 4px);left:50%;transform:translateX(-50%);font-size:10px;font-weight:600;color:var(--muted)}
@@ -673,14 +673,13 @@ function wMoradia(){
   const M=S.mes,x=mes(M);
   const itens=contas().filter(c=>c.moradia).map(c=>({c,v:val(c.valores,M)})).filter(i=>i.v>0);
   const total=sum(itens.map(i=>i.v));
-  const base=S.basis==="casal"?x.E:x.sal[S.basis];const p=base>0?total/base*100:0;
+  const base=x.E;const p=base>0?total/base*100:0;
   const color=p<=30?"var(--green)":p<=40?"var(--amber)":"var(--red)";const cls=p<=30?"":p<=40?"w":"r";
   return `<section class="card"><div class="h">Moradia</div><div class="ill" style="width:96px;height:88px">${ILL.house}</div>
    <div class="lbl" style="margin-top:22px">Quanto vocês gastam pra morar</div>${big(total,"md")}
-   <div class="okline"><b class="${cls}">${p<=30?I.check:""}${Math.round(p)}% ${S.basis==="casal"?"do salário do casal":"do salário de "+esc(nome(S.basis))}</b> referência: até 30%</div>
-   <div class="seg" role="tablist"><button class="${S.basis==="casal"?"on":""}" data-act="basis" data-b="casal">Casal</button><button class="${S.basis==="eu"?"on":""}" data-act="basis" data-b="eu">${esc(nome("eu"))}</button><button class="${S.basis==="ela"?"on":""}" data-act="basis" data-b="ela">${esc(nome("ela"))}</button></div>
+   <div class="okline"><b class="${cls}">${p<=30?I.check:""}${Math.round(p)}% do salário do casal</b> referência: até 30%</div>
    <div class="mbar"><i style="width:${Math.min(p/60,1)*100}%;background:${color}"></i><span class="ref" style="left:50%"><span>30%</span></span></div>
-   <div class="mscale"><span>0%</span><span>60% do salário</span></div>
+   <div class="mscale"><span>0%</span><span>60% do salário do casal</span></div>
    <div class="sub" style="margin-top:22px">O que entra na conta</div>
    <div class="mgrid">${itens.length?itens.map(i=>`<div class="mi"><span class="ico">${I[i.c.icone]||I.outro}</span><div><small>${esc(i.c.nome)}</small><b>${brl(i.v)}</b></div></div>`).join(""):`<span class="lbl">Marque “Entra na moradia” nas contas fixas.</span>`}</div>
   </section>`;
