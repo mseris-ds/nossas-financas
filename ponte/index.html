@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nossas Finanças</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Finanças">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#2563eb">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="manifest" href="manifest.webmanifest">
+<style>
+  :root{--bg:#f2f3f7;--card:#fff;--fg:#101217;--muted:#6c7280;--blue:#2563eb;color-scheme:light}
+  @media (prefers-color-scheme:dark){:root{--bg:#0b0d12;--card:#141720;--fg:#eef0f5;--muted:#9aa1b0;--blue:#4f86ff;color-scheme:dark}}
+  *{box-sizing:border-box}
+  body{margin:0;min-height:100vh;background:var(--bg);color:var(--fg);font:16px/1.45 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;display:grid;place-items:center;padding:24px max(16px,env(safe-area-inset-left)) 24px max(16px,env(safe-area-inset-right))}
+  .box{background:var(--card);border-radius:22px;padding:28px 22px;max-width:380px;width:100%;text-align:center;box-shadow:0 1px 3px rgba(16,24,40,.06)}
+  img{width:88px;height:88px;border-radius:20px}
+  h1{font-size:22px;margin:14px 0 4px}
+  p{color:var(--muted);font-size:14px;margin:6px 0}
+  a.btn{display:block;margin-top:18px;background:var(--blue);color:#fff;text-decoration:none;font-weight:600;padding:14px;border-radius:14px}
+  ol{text-align:left;color:var(--muted);font-size:14px;padding-left:20px;margin:16px 0 0}
+  #abrindo{display:none}
+</style>
+</head>
+<body>
+<div class="box">
+  <img src="apple-touch-icon.png" alt="">
+  <h1>Nossas Finanças</h1>
+  <p id="abrindo">Abrindo…</p>
+  <div id="inicio">
+    <a class="btn" id="abrir" href="#">Abrir</a>
+    <ol>
+      <li>No iPhone, toque em <b>Compartilhar</b> → <b>Adicionar à Tela de Início</b>.</li>
+      <li>Deixe <b>Abrir como app web</b> ligado e toque em <b>Adicionar</b>.</li>
+    </ol>
+  </div>
+</div>
+<script>
+  var APP = "https://script.google.com/macros/s/AKfycbwqcjdlBrtYthHMr56dfDQPzxzxnuI0-3m-WVoA2YCT96c9zksnPzVxAHnbEqLYkIlkfA/exec";
+  document.getElementById("abrir").href = APP;
+  var instalado = window.navigator.standalone === true ||
+    (window.matchMedia && window.matchMedia("(display-mode: standalone)").matches) ||
+    /[?&]app=1/.test(location.search);
+  if (instalado) {
+    document.getElementById("inicio").style.display = "none";
+    document.getElementById("abrindo").style.display = "block";
+    location.replace(APP);
+  }
+</script>
+</body>
+</html>
