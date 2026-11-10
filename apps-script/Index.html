@@ -15,25 +15,10 @@
   --nu:#8a19d6; --nu-soft:#efe3fb; --inter:#ff7a00; --inter-soft:#ffeedd;
   --green:#16a34a; --green-soft:#e3f6ea; --amber:#c27803; --amber-soft:#fdf3d7; --red:#dc2626; --red-soft:#fde8e8;
   --shadow:0 1px 2px rgba(16,24,40,.04),0 1px 3px rgba(16,24,40,.03);
+  color-scheme:light;
   --font:"Inter",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
 }
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#0b0d12; --surface:#141720; --surface-2:#1b1f2a; --surface-3:#232836; --line:#242a36;
-  --fg:#eef0f5; --fg-2:#c9cdd6; --muted:#9aa1b0; --faint:#666d7c;
-  --blue:#4f86ff; --blue-soft:#1b2745; --navy:#4a6be0;
-  --nu:#b366ff; --nu-soft:#2a1840; --inter:#ff9636; --inter-soft:#3a2410;
-  --green:#22c55e; --green-soft:#12301f; --amber:#f0b429; --amber-soft:#33280c; --red:#f87171; --red-soft:#3a1717;
-  --shadow:none; color-scheme:dark;
-}}
-:root[data-theme="dark"]{
-  --bg:#0b0d12; --surface:#141720; --surface-2:#1b1f2a; --surface-3:#232836; --line:#242a36;
-  --fg:#eef0f5; --fg-2:#c9cdd6; --muted:#9aa1b0; --faint:#666d7c;
-  --blue:#4f86ff; --blue-soft:#1b2745; --navy:#4a6be0;
-  --nu:#b366ff; --nu-soft:#2a1840; --inter:#ff9636; --inter-soft:#3a2410;
-  --green:#22c55e; --green-soft:#12301f; --amber:#f0b429; --amber-soft:#33280c; --red:#f87171; --red-soft:#3a1717;
-  --shadow:none; color-scheme:dark;
-}
-*{box-sizing:border-box}
+ *{box-sizing:border-box}
 [hidden]{display:none!important}
 *{scrollbar-width:thin;scrollbar-color:color-mix(in srgb,var(--faint) 70%,transparent) transparent}
 ::-webkit-scrollbar{width:8px;height:8px}
@@ -572,14 +557,11 @@ function renderSide(){
   const nav=[["visao","Visão geral"],["fluxo","Planilha do ano"],["cartoes","Cartões"],["mural","Mural da vergonha"],["reserva","Nossa reserva"]];
   const aj=[["renda","Nossa renda"],["contas","Contas fixas"]];
   const b=([k,t])=>`<button class="${S.view===k?"on":""}" data-act="go" data-v="${k}">${I[k]}<span>${t}</span></button>`;
-  const th=document.documentElement.getAttribute("data-theme");
-  const dark=th?th==="dark":matchMedia("(prefers-color-scheme: dark)").matches;
   const st={load:["","Carregando…"],ok:["g","Salvo na planilha"],saving:["a","Salvando…"],err:["r","Erro ao sincronizar"]}[S.sync]||["",""];
   $("#side").innerHTML=`<div class="brand"><div class="duo"><span class="av eu">${ini("eu")}</span><span class="av ela">${ini("ela")}</span></div><div><b>Nossas Finanças</b><small>Finanças em casal</small></div></div>
   <div class="navlbl">Menu</div><nav class="nav">${nav.map(b).join("")}</nav>
   <div class="navlbl">Ajustes</div><nav class="nav">${aj.map(b).join("")}</nav>
   <div class="side-foot">
-    <div class="theme"><span>${I.sun}Tema</span><div class="seg2"><button class="${dark?"":"on"}" data-act="theme" data-t="light" aria-label="Tema claro">${I.sun}</button><button class="${dark?"on":""}" data-act="theme" data-t="dark" aria-label="Tema escuro">${I.moon}</button></div></div>
     <div class="me"><div class="duo"><span class="av eu">${ini("eu")}</span><span class="av ela">${ini("ela")}</span></div><span><b>${esc(nome("eu"))} & ${esc(nome("ela"))}</b><small><i class="dot ${st[0]}"></i>${st[1]}</small></span></div>
   </div>`;
   const tb=$("#tabbar");if(!tb)return;
@@ -588,7 +570,6 @@ function renderSide(){
   tb.innerHTML=its.map(([k,t])=>`<button class="${S.view===k?"on":""}" data-act="go" data-v="${k}" aria-label="${t}">${I[k]}<span>${t}</span></button>`).join("")+
    `<button class="${maisOn||S.menu==="mais"?"on":""}" data-act="menu" data-m="mais" aria-label="Mais">${I.mais}<span>Mais</span></button>`+
    (S.menu==="mais"?`<div class="menu"><button data-act="go" data-v="reserva">${I.reserva.replace("<svg",'<svg width="16" height="16"')} Nossa reserva</button><button data-act="go" data-v="renda">${I.renda.replace("<svg",'<svg width="16" height="16"')} Nossa renda</button><button data-act="go" data-v="contas">${I.contas.replace("<svg",'<svg width="16" height="16"')} Contas fixas</button>
-   <div class="rowt"><span>Tema</span><div class="seg2"><button class="${dark?"":"on"}" data-act="theme" data-t="light" aria-label="Tema claro">${I.sun}</button><button class="${dark?"on":""}" data-act="theme" data-t="dark" aria-label="Tema escuro">${I.moon}</button></div></div>
    <div class="ttl" style="display:flex;align-items:center;gap:6px"><i class="dot ${st[0]}"></i>${st[1]}</div></div>`:"");
 }
 function bellItems(){if(!S.data)return [];return pagarItens(TODAY).filter(x=>!x.pago&&x.data&&diffDays(x.data)<=7)}
@@ -912,7 +893,6 @@ document.addEventListener("click",e=>{
     case "menu":S.menu=S.menu===b.dataset.m?null:b.dataset.m;render();break;
     case "mes":S.mes=addM(S.mes,+b.dataset.n);S.chip=null;S.fatSel=0;render();break;
     case "setmes":S.mes=b.dataset.k;S.menu=null;S.chip=null;S.fatSel=0;render();break;
-    case "theme":document.documentElement.setAttribute("data-theme",b.dataset.t);lsSet("theme",b.dataset.t);renderSide();break;
     case "chip":{const d=+b.dataset.d;S.chip=S.chip===d?null:d;render();break}
     case "pay":{const id=b.dataset.id;const arr=(S.data.pagos[S.mes]||[]).slice();const i=arr.indexOf(id);if(i>=0)arr.splice(i,1);else arr.push(id);save({pagos:{[S.mes]:arr}});break}
     case "basis":S.basis=b.dataset.b;render();break;
@@ -974,7 +954,6 @@ document.addEventListener("keydown",e=>{
 document.addEventListener("focusout",()=>{setTimeout(()=>{const ae=document.activeElement;if(S.pending&&$("#ov").hidden&&!(ae&&/INPUT|SELECT/.test(ae.tagName))){S.pending=false;render()}},50)});
 function fromHash(){const h=(location.hash||"").slice(1);S.view=VIEWS.includes(h)?h:"visao"}
 window.addEventListener("hashchange",()=>{fromHash();render()});
-matchMedia("(prefers-color-scheme: dark)").addEventListener("change",()=>renderSide());
 mq.addEventListener("change",()=>{S.menu=null;render()});
 fromHash();init();
 })();
